@@ -26,6 +26,8 @@ ifconfig wlan0 up
 
 nmcli radio wifi on
 
+sleep 5
+
 echo "Enable WiFi Access Point"
 ser_num=$(cat /sys/firmware/devicetree/base/serial-number | cut -c9-16)
 nmcli device wifi hotspot ssid deteq_ap-${ser_num} password ${ser_num} ifname wlan0
@@ -36,8 +38,7 @@ nmcli connection modify Hotspot connection.autoconnect yes connection.autoconnec
 # clean up the provisioning files
 # delete the parent folder of this script
 script_dir=$(dirname "$(realpath "$0")")
-parent_dir=$(dirname "$script_dir")
-rm -rf "$parent_dir"
+rm -rf "$script_dir"
 
 echo "Rebooting to apply changes"
 reboot

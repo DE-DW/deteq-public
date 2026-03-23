@@ -33,5 +33,11 @@ nmcli device wifi hotspot ssid deteq_ap-${ser_num} password ${ser_num} ifname wl
 # Set the hotspot to autoconnect with high priority
 nmcli connection modify Hotspot connection.autoconnect yes connection.autoconnect-priority 100
 
+# clean up the provisioning files
+# delete the parent folder of this script
+script_dir=$(dirname "$(realpath "$0")")
+parent_dir=$(dirname "$script_dir")
+rm -rf "$parent_dir"
+
 echo "Rebooting to apply changes"
 reboot

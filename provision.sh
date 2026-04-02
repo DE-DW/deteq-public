@@ -49,6 +49,23 @@ if ! grep -q "/dev/sda1" /etc/fstab; then
   echo "/dev/sda1 /mnt/usb auto defaults,uid=pi,gid=pi,nofail 0 0" >> /etc/fstab
 fi
 
+# set gpio pins to output and high if not already set in /boot/firmware/config.txt
+if ! grep -q "gpio=19=op,dh" /boot/firmware/config.txt; then
+  echo "gpio=19=op,dh" >> /boot/firmware/config.txt
+fi
+
+if ! grep -q "gpio=16=op,dh" /boot/firmware/config.txt; then
+  echo "gpio=16=op,dh" >> /boot/firmware/config.txt
+fi
+
+if ! grep -q "gpio=26=op,dh" /boot/firmware/config.txt; then
+  echo "gpio=26=op,dh" >> /boot/firmware/config.txt
+fi
+
+if ! grep -q "gpio=20=op,dh" /boot/firmware/config.txt; then
+  echo "gpio=20=op,dh" >> /boot/firmware/config.txt
+fi
+
 # clean up the provisioning files
 # delete the parent folder of this script
 script_dir=$(dirname "$(realpath "$0")")

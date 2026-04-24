@@ -6,6 +6,8 @@ if [ "$EUID" -ne 0 ]; then
   exit -1
 fi
 
+ser_num=$(cat /sys/firmware/devicetree/base/serial-number | cut -c9-16)
+
 apt update
 
 echo "Enabling SPI via raspi-config"
@@ -20,6 +22,9 @@ raspi-config nonint do_serial_hw 0
 echo "Disabling Serial Console via raspi-config"
 raspi-config nonint do_serial_cons 1
 
+echo "Set hostname to deteq-${ser_num}"
+raspi-config nonint do_hostname deteq-${ser_num}
+
 echo "Enabling WiFi"
 rfkill unblock wifi
 ifconfig wlan0 up
@@ -29,7 +34,6 @@ nmcli radio wifi on
 sleep 5
 
 echo "Enable WiFi Access Point"
-ser_num=$(cat /sys/firmware/devicetree/base/serial-number | cut -c9-16)
 nmcli device wifi hotspot ssid deteq_ap-${ser_num} password ${ser_num} ifname wlan0
 
 # Set the hotspot to autoconnect with high priority

@@ -8,6 +8,12 @@ fi
 
 ser_num=$(cat /sys/firmware/devicetree/base/serial-number | cut -c9-16)
 
+# check if the serial number is empty, if so exit with an error message
+if [ -z "$ser_num" ]; then
+  echo "Error: Serial number is empty. Please check if the device has a valid serial number."
+  exit -1
+fi
+
 apt update
 
 echo "Enabling SPI via raspi-config"
